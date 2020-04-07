@@ -1,0 +1,253 @@
+@charset "UTF-8";
+
+/*#########################################################
+
+基本設定
+
+#########################################################*/
+// 基本単位
+$unit: 1rem; // フォントサイズ
+$mg: 10px; // 余白の最小単位
+
+// カラー
+$c-bg: #fff;	// 背景色
+$c-font: #252f39;	// フォントカラー
+$c-line: #959595;	// 線の色
+$c-anchor: #000;	// リンク色
+$c-anchor-hover: #959595;	// ホバー時のリンク色
+$c-anchor-active: #00a0e9; // アクティブ時のリンク色
+$c-anchor-visited: $c-anchor; // 訪問済み時のリンク色
+$c-anchor-focus: $c-anchor-hover; // フォーカス時のリンク色
+
+// フォント
+$font-family: "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Helvetica Neue", Helvetica, Arial, "メイリオ", Meiryo, sans-serif;	// フォントの種類
+
+// コンテンツ幅
+$w-content: 1080px;
+
+/* ========================================================
+mixin mq用の変数設定
+=========================================================*/
+/*
+▼iOSデバイス
+iPhone5: 320 × 568
+iPhone7: 375 × 667(1334x750)
+iPhone7 Plus: 414 × 736(1920x1080)
+iPad/iPad Mini: 768 × 1024
+iPad Pro: 1024 × 1366
+
+▼ブートストラップ
+xs： ～767px
+sm： 768～991px
+md： 992～1119px
+lg： 1120px～
+*/
+$screen-sm-max: 767px;	// スマホ表示の最大値
+$screen-md-max: 1023px;	// タブレット表示の最大値
+
+
+/*#########################################################
+
+mixin
+
+#########################################################*/
+
+/* ========================================================
+メディアクエリ用Mixin
+=========================================================*/
+@mixin mq($breakpoint) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+/*
+ステップ1.モバイルファーストかデスクトップファーストかを選ぶ
+ステップ2.該当する設定を有効化、その他をコメントアウトする。
+ステップ3.選択したタイプにより、「▼モバイルファーストの例」、「▼デスクトップファーストの例」のどちらかを参考にブレイクポイントを設定する。
+→実際の設定は_base.scssではなく、インポート元で行う。
+*/
+
+/*
+// ステップ2：モバイルファースト用（デスクトップファーストの場合はコメントアウト）
+$breakpoints: (
+	// タブレット
+	'md': 'screen and (min-width: ' + ($screen-sm-max + 1) + ') and (max-width: ' + ($screen-md-max) + ')',
+	// デスクトップ
+	'lg': 'screen and (min-width: ' + ($screen-sm-max + 1) + ')',
+) !default;
+*/
+
+/*
+// ステップ3：▼モバイルファーストの例
+// メディアクエリのブロック外にベースになるCSSを書く。
+// モバイルファーストでは小さい画面サイズから順々に指定。
+main{
+	// デフォルト
+	background: yellow;
+	// タブレット
+	@include mq(md){
+		background: orange;
+	}
+	// デスクトップ
+	@include mq(lg){
+		background: red;
+	}
+}
+//------------------------------
+*/
+
+// ステップ2：デスクトップファースト用（モバイルファーストの場合はコメントアウト）
+$breakpoints: (
+	// タブレット
+	'md': 'screen and (min-width: ' + ($screen-sm-max + 1) + ') and (max-width: ' + $screen-md-max + ')',
+	// スマートフォン
+	'sm': 'screen and (max-width: ' + $screen-sm-max + ')',
+) !default;
+
+/*
+// ステップ3：▼デスクトップファーストの例
+// メディアクエリのブロック外にベースになるCSSを書く。
+// デスクトップファーストでは大きい画面サイズから順々に指定。
+main{
+	// デフォルト
+	background: red;
+	// タブレット
+	@include mq(md){
+		background: orange;
+	}
+	// スマートフォン
+	@include mq(sm){
+		background: yellow;
+	}
+}
+//------------------------------
+*/
+
+
+
+
+/*#########################################################
+
+要素関連（リセットCSSの種類によっては不要）
+
+#########################################################*/
+html {
+	height: 100%;
+	font-size: 62.5%;	// 1rem=12pt（16px）→1rem=10px
+}
+body {
+	height: 100%;
+	font-size: $unit*1.6;
+	font-family: $font-family;
+	background-color: $c-bg;
+}
+p {
+	line-height: 1.8;
+}
+a {
+	color: $c-anchor;
+	&:visited {
+		color: $c-anchor-visited;
+	}
+	&:focus {
+		color: $c-anchor-focus;
+	}
+	&:hover {
+		color: $c-anchor-hover;
+		opacity: 0.6;
+	}
+	&:active {
+		color: $c-anchor-active;
+	}
+
+	// アンカーのデフォルトホバー処理
+	transition: all 0.5s ease-out;
+}
+
+
+
+/*#########################################################
+
+余白（なるべく使わない）
+
+#########################################################*/
+/* ========================================================
+下余白
+=========================================================*/
+/*
+.mb1{
+	margin-bottom: $mg*1;
+}
+.mb2{
+	margin-bottom: $mg*2;
+}
+.mb3{
+	margin-bottom: $mg*3;
+}
+.mb4{
+	margin-bottom: $mg*4;
+}
+.mb5{
+	margin-bottom: $mg*5;
+}
+*/
+/* ========================================================
+右余白
+=========================================================*/
+/*
+.mr1{
+	margin-right: $mg*1;
+}
+.mr2{
+	margin-right: $mg*2;
+}
+.mr3{
+	margin-right: $mg*3;
+}
+.mr4{
+	margin-right: $mg*4;
+}
+.mr5{
+	margin-right: $mg*5;
+}
+*/
+
+/*#########################################################
+
+共通アイコン・共通設定
+
+#########################################################*/
+
+/* ========================================================
+PC版・SP版専用設定(モバイルファースト用)
+=========================================================*/
+/*
+.pc{
+	display: none !important;
+	@include mq(lg){
+		display: inherit !important;
+	}
+}
+.sp{
+	display: inherit !important;
+	@include mq(lg){
+		display: none !important;
+	}
+}
+*/
+
+/* ========================================================
+PC版・SP版専用設定(PCファースト用)
+=========================================================*/
+.pc{
+	@include mq(sm){
+		display: none !important;
+	}
+}
+.sp{
+	display: none !important;
+	@include mq(sm){
+		display: inherit !important;
+	}
+}
